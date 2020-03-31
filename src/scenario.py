@@ -2,13 +2,6 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 
-initial_conditions = {
-    'initial_cases':32,
-    'exposed_per_case': 4,
-    'deaths': 0 # No Muertos,
-}
-
-
 def SEAIR_D(t, population, initial_conditions,  Ro = 4, start_intervention=1, intervention_duration=119):
     """
     Esta parte de código es la que implementa las ecuaciones diferenciales.
@@ -23,7 +16,7 @@ def SEAIR_D(t, population, initial_conditions,  Ro = 4, start_intervention=1, in
     I_o = initial_cases / population  # Tenemos 32 casos
     E_o = (initial_cases*exposed_per_case)/ population # Asumimos 4 expuestos por caso
     A_o = exposed_per_case / population
-    D_o = deaths # No Muertos
+    D_o = deaths / population # No Muertos
     S_o = (1) - (E_o+I_o+A_o+D_o) # El resto somos suceptibles
     R_o = 0 # NO hay ningun recuperado
 
@@ -61,15 +54,10 @@ def SEAIR_D(t, population, initial_conditions,  Ro = 4, start_intervention=1, in
 
 def plot_scenario(population,initial_conditions, Ro =4 , start_intervention =1, intervention_duration =119 ):
 
-    population = 4200000
-    Ro = 4
-    start_intervention=1
-    intervention_duration=119
-
     dt=.01
     t = np.arange(0,intervention_duration+dt,dt)
 
-    S,E,A,I,R,D = SEAIR_D(t, population, initial_conditions, 4, start_intervention,intervention_duration)
+    S,E,A,I,R,D = SEAIR_D(t, population, initial_conditions, Ro, start_intervention,intervention_duration)
 
     E_a = np.array(E)*population
     I_a = np.array(I)*population
