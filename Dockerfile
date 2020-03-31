@@ -1,8 +1,8 @@
 FROM ubuntu:bionic
 
-RUN apt-get install -y tzdata
+RUN apt-get update && apt-get install -y tzdata
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get install -y \
     python3 python3-pip \
     curl unzip wget python3-tk
 
